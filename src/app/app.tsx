@@ -1,104 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+import { Answer } from './components/answer';
+import { Keyboard } from './components/keyboard';
+
 const App: React.FC<{ compiler: string, framework: string }> = (props) => {
-  const rowNOs = [0, 1, 2, 3, 4, 5];
-  const columnNOs = [0, 1, 2, 3, 4];
 
-  const upKeyBoards = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-  const middleKeyBoards = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-  const downKeyBoards = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
+    // 6*5の配列の初期化
+    let initAnswerList: string[][] = new Array(6);
+    for (let i=0; i<6; i++){
+        // initAnswerList[i] = new Array(6).fill("A");
+        initAnswerList[i] = new Array(6).fill("");
+    }
 
-  const answerStyle: React.CSSProperties = {
-    borderSpacing: '6px 6px',
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '40px'
-  };
+    // 回答一覧
+    // キーボードの文字入力により更新
+    const [ answerList, setAnswerList ] = useState<string[][]>(initAnswerList);
 
-  const answerTdStyle: React.CSSProperties = {
-    border: '2px solid rgb(217, 217, 217)',
-    width: '60px',
-    height: '60px',
+    // 回答の判定を行うフラグ
+    // キーボードのEnter入力により更新
+    const [ judge, setJudge ] = useState<boolean>(false);
 
-    fontSize: '30px',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    lineHeight: '60px'
-  };
-
-  const keyboardStyle: React.CSSProperties = {
-    borderSpacing: '6px 6px',
-    display: 'flex',
-    justifyContent: 'center'
-  }
-
-  const buttonStyle: React.CSSProperties = {
-    backgroundColor: 'rgb(217, 217, 217)',
-    borderRadius: '4px',
-    border: 'none',
-    width: '45px',
-    height: '60px',
-
-    fontSize: '13px',
-    fontWeight: 'bold',
-    cursor: 'pointer'
-  }
-
-  return (
-    <div className="App">
-      <table id="answer" style={answerStyle}>
-        <tbody>
-          {rowNOs.map((i) => (
-            <tr key={i}>
-              {columnNOs.map((j) => (
-                <td key={j} style={answerTdStyle}>A</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <table id="keyboard-row" style={keyboardStyle}>
-        <tbody>
-          <tr>
-            {upKeyBoards.map((key, i) => (
-              <td id="alphabet-key" key={i}>
-                <button onClick={() => alert(key)} style={buttonStyle}>{key}</button>
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
-
-      <table id="keyboard-row" style={keyboardStyle}>
-        <tbody>
-          <tr>
-            {middleKeyBoards.map((key, i) => (
-              <td id="alphabet-key" key={i}>
-                <button onClick={() => alert(key)} style={buttonStyle}>{key}</button>
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
-
-      <table id="keyboard-row" style={keyboardStyle}>
-        <tbody>
-          <tr>
-            {downKeyBoards.map((key, i) => (
-              <td id="alphabet-key" key={i}>
-                <button onClick={() => alert(key)} style={buttonStyle}>{key}</button>
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Answer answerList={answerList}/>
+            <Keyboard />
+        </div>
+    );
 }
 
 ReactDOM.render(
-  <App compiler="TypeScript" framework="React" />,
-  document.getElementById("root")
+    <App compiler="TypeScript" framework="React" />,
+    document.getElementById("root")
 );
