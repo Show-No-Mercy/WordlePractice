@@ -21,9 +21,25 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
     // キーボードのEnter入力により更新
     const [ judge, setJudge ] = useState<boolean>(false);
 
+    // 現在の状態
+    // playing: ゲーム中
+    // success: 成功
+    // fail: 失敗
+    const [ status, setStatus ] = useState<string>("playing");
+
+    // 正解単語
+    const [ answerWord, setAnswerWord ] = useState<string>("WORLD");
+
     return (
         <div className="App">
-            <Answer answerList={answerList}/>
+            <Answer 
+                answerList={answerList}
+                judge={judge}
+                setJudge={setJudge}
+                // matchList={matchList}
+                // setMatchList={setMatchList}
+                answerWord={answerWord}
+            />
             <Keyboard />
         </div>
     );
