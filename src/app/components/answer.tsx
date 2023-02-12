@@ -4,12 +4,14 @@ type Props = {
     answerList: string[][];
     judge: boolean;
     setJudge: React.Dispatch<React.SetStateAction<boolean>>;
-    // matchList: string[][];
-    // setMatchList: React.Dispatch<React.SetStateAction<string[][]>>;
     answerWord: string;
+    gameStatus: string;
+    setGameStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const Answer = (props: Props) => {
+    console.log("- Answer start -");
+    console.log(props.judge);
 
     // 回答のCSSスタイル
     const answerStyle: React.CSSProperties = {
@@ -38,8 +40,6 @@ export const Answer = (props: Props) => {
         backgroundColor: 'White',
     };
 
-    console.log("loop??");
-
     // Blackスタイル
     let blackTdStyle = {...whiteTdStyle};
     blackTdStyle['color'] = 'White';
@@ -56,13 +56,25 @@ export const Answer = (props: Props) => {
     greenTdStyle['backgroundColor'] = '538d4e';
 
     // ラウンド
-    const [ round, setRound ] = useState<number>(1);
+    const [ round, setRound ] = useState<number>(0);
+
+    // リストの初期化
+    let initMatchList: string[][] = new Array(6);
+    for (let i=0; i<6; i++){
+        initMatchList[i] = new Array(5).fill("White");
+    }
+
+    // 回答欄のCSSリスト
+    // White: 判定していない
+    // Black: 文字も位置も無一致
+    // Yellow: 文字のみ一致
+    // Green: 文字も位置も一致
+    const [ matchList, setMatchList ] = useState<string[][]>(initMatchList);
 
     // リストの初期化
     let initMatchStyleList: React.CSSProperties[][] = new Array(6);
     for (let i=0; i<6; i++){
-        // initMatchStyleList[i] = new Array(5).fill(whiteTdStyle);
-        initMatchStyleList[i] = new Array(5).fill(greenTdStyle);
+        initMatchStyleList[i] = new Array(5).fill(whiteTdStyle);
     }
 
     // 回答欄のCSSリスト
@@ -72,10 +84,10 @@ export const Answer = (props: Props) => {
     // Green: 文字も位置も一致
     const [ matchStyleList, setMatchStyleList ] = useState<React.CSSProperties[][]>(initMatchStyleList);
 
-    // 判定
-    const judgement = () => {
-
+    // 単語一致判定
+    const wordMatchJudgement = () => {
         // 一度ディープコピーする
+        // let tmpMatchList = Array.from(matchList);
         let tmpMatchStyleList = Array.from(matchStyleList);
 
         // 1文字ずつ判定
@@ -86,41 +98,108 @@ export const Answer = (props: Props) => {
                 
                 // 位置も一致(Green)
                 if (props.answerList[round-1][i] === props.answerWord[i]){
+                    // tmpMatchList[round-1][i] = "White";
                     tmpMatchStyleList[round-1][i] = greenTdStyle;
                 }
 
                 // 文字だけ一致(Yellow)
                 else {
+                    // tmpMatchList[round-1][i] = "Yellow";
                     tmpMatchStyleList[round-1][i] = yellowTdStyle;
                 }
             }
 
             // 文字も位置も一致していない(Black)
             else {
+                // tmpMatchList[round-1][i] = "Black";
                 tmpMatchStyleList[round-1][i] = blackTdStyle;
             }
         }
 
-        console.log(tmpMatchStyleList);
-
-        // 反映
-        setMatchStyleList(tmpMatchStyleList);
+        // return [tmpMatchList, tmpMatchStyleList];
+        return tmpMatchStyleList;
     }
 
-    // Enterを押したら
-    if (props.judge === true){
-        // 判定
-        judgement();
-        props.setJudge(false);
+    // スタイル
+    // const styleTransfer = (matchList: string[][]) => {
+    //     let tmpMatchStyleList = Array.from(matchStyleList);
 
-        // ラウンドを増やす
-        setRound(round+1);
+    //     const match = matchList[round-1];
+
+    //     for (let i=0; i<5; i++){
+    //         if (match[i] === "Green"){
+
+    //         }
+    //     }
+        
+    // }
+
+    // クリア判定
+    // const clearJudgement = (matchList: string[][]) => {
+
+    //     // const isAllEqual = array => array.every(value => value === array[0]);
+
+    //     // isAllEqual(matchList[round-1]);
+
+    //     return "playing";
+    // }
+
+    // Appコンポーネントのjudgeが変化した時に呼ばれる
+    useEffect(() => {
+
+        // Enterを押したら
+        if (props.judge === true){
+            // 一度フラグをおろす
+            props.setJudge(false);
+        }
+
+        // フラグをおろしてからここへ
+        else {
+            // コンポーネント初期化時にここを通る
+            if (round == 0){
+                setRound(round+1); // ラウンドを1に
+                return;
+            }
+
+            // ゲーム継続中なら
+            if (props.gameStatus == "playing"){
+                // 単語一致判定
+                // const [tmpMatchList, tmpMatchStyleList] = wordMatchJudgement();
+
+                const tmpMatchStyleList = wordMatchJudgement();
+
+                // クリア判定
+                // const status = clearJudgement(tmpMatchList);
+
+                // スタイル更新
+                setMatchStyleList(tmpMatchStyleList);
+                // ラウンド更新
+                setRound(round+1);
+            }
+        }
+
+    }, [props.judge]);
+    
+    /* テスト用 */
+    const divStyle: React.CSSProperties = {
+        display: 'flex',
+        justifyContent: 'center'
     }
 
-    // テスト用
-    // useEffect(() => {
-    //     props.setJudge(true);
-    // }, []);
+    const buttonStyle: React.CSSProperties = {
+        backgroundColor: '3a3a3c',
+        borderRadius: '4px',
+        border: 'none',
+        width: '45px',
+        height: '60px',
+
+        fontSize: '13px',
+        fontWeight: 'bold',
+        color: 'White',
+
+        cursor: 'pointer',
+    }
+    /*  */
 
     return (
         // mapにより回答table作成
@@ -137,6 +216,10 @@ export const Answer = (props: Props) => {
                     ))}
                 </tbody>
             </table>
+
+            <div style={divStyle}>
+                <button style={buttonStyle} onClick={()=>props.setJudge(true)}>judge</button>
+            </div>
 
         </div>            
     );
