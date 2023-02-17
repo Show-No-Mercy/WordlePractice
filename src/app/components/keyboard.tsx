@@ -34,12 +34,13 @@ const KeyboardRow = (props: Props) => {
             props.setOutputList(copyList);
         } else if (copyList.indexOf("Enter") !== -1 && copyList.length === 6) {
             props.answerList[props.rowcnt] = props.outputList;
-            props.setAnswerList(props.answerList);
+            let insertList = [...props.answerList];
+            props.setAnswerList(insertList);
             props.setOutputList(new Array(0));
             props.setRowcnt(props.rowcnt+1);
             console.log(props.answerList);
         }
-        else if (copyList.length > 6) {
+        else if (copyList.length >= 6) {
             alert("入力できるのは5文字までです。");
         }
         else{
