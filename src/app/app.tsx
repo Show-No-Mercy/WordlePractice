@@ -9,8 +9,8 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
     // 6*5の配列の初期化
     let initAnswerList: string[][] = new Array(6);
     for (let i=0; i<6; i++){
-        initAnswerList[i] = new Array(5).fill("A");
-        // initAnswerList[i] = new Array(5).fill("");
+        // initAnswerList[i] = new Array(5).fill("A");
+        initAnswerList[i] = new Array(5).fill("");
     }
 
     // 回答一覧
@@ -24,7 +24,7 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
     return (
         <div className="App">
             <Answer answerList={answerList}/>
-            <Keyboard />
+            <Keyboard answerList={answerList} setAnswerList={setAnswerList} />
         </div>
     );
 }
