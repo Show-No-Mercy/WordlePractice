@@ -38,6 +38,7 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
 
     return (
         <div className="App">
+
             <Answer 
                 answerList={answerList}
                 judge={judge}
@@ -47,6 +48,7 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
                 setGameStatus={setGameStatus}
             />
             <Keyboard />
+
         </div>
     );
 }
