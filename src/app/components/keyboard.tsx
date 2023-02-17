@@ -34,7 +34,7 @@ const KeyboardRow = (props: Props) => {
             props.setOutputList(copyList);
         } else if (copyList.indexOf("Enter") !== -1 && copyList.length === 6) {
             props.answerList[props.rowcnt] = props.outputList;
-            let insertList = [...props.answerList];
+            let insertList: string[][] = [...props.answerList];
             props.setAnswerList(insertList);
             props.setOutputList(new Array(0));
             props.setRowcnt(props.rowcnt+1);
