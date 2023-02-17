@@ -5,13 +5,16 @@ import { Answer } from './components/answer';
 import { Keyboard } from './components/keyboard';
 
 const App: React.FC<{ compiler: string, framework: string }> = (props) => {
-
     // 6*5の配列の初期化
     let initAnswerList: string[][] = new Array(6);
     for (let i=0; i<6; i++){
         // initAnswerList[i] = new Array(5).fill("A");
         initAnswerList[i] = new Array(5).fill("");
     }
+    initAnswerList[0] = new Array('G', 'L', 'Y', 'P', 'H');
+    initAnswerList[1] = new Array('G', 'R', 'E', 'A', 'T');
+    initAnswerList[2] = new Array('R', 'O', 'U', 'N', 'D');
+    initAnswerList[3] = new Array('W', 'O', 'R', 'L', 'D');
 
     // 回答一覧
     // キーボードの文字入力により更新
@@ -21,10 +24,31 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
     // キーボードのEnter入力により更新
     const [ judge, setJudge ] = useState<boolean>(false);
 
+    console.log("- App Start -");
+    console.log(judge);
+
+    // 現在の状態
+    // playing: ゲーム中
+    // success: 成功
+    // fail: 失敗
+    const [ gameStatus, setGameStatus ] = useState<string>("playing");
+
+    // 正解単語
+    const [ answerWord, setAnswerWord ] = useState<string>("WORLD");
+
     return (
         <div className="App">
-            <Answer answerList={answerList}/>
-            <Keyboard answerList={answerList} setAnswerList={setAnswerList} />
+
+            <Answer 
+                answerList={answerList}
+                judge={judge}
+                setJudge={setJudge}
+                answerWord={answerWord}
+                gameStatus={gameStatus}
+                setGameStatus={setGameStatus}
+            />
+            <Keyboard />
+
         </div>
     );
 }
