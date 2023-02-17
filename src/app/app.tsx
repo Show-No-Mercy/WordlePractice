@@ -11,10 +11,6 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
         // initAnswerList[i] = new Array(5).fill("A");
         initAnswerList[i] = new Array(5).fill("");
     }
-    initAnswerList[0] = new Array('G', 'L', 'Y', 'P', 'H');
-    initAnswerList[1] = new Array('G', 'R', 'E', 'A', 'T');
-    initAnswerList[2] = new Array('R', 'O', 'U', 'N', 'D');
-    initAnswerList[3] = new Array('W', 'O', 'R', 'L', 'D');
 
     // 回答一覧
     // キーボードの文字入力により更新
@@ -47,8 +43,10 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
                 gameStatus={gameStatus}
                 setGameStatus={setGameStatus}
             />
-            <Keyboard />
-
+            <Keyboard 
+                answerList={answerList} 
+                setAnswerList={setAnswerList}
+            />
         </div>
     );
 }
