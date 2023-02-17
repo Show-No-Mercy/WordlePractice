@@ -17,7 +17,7 @@ type Props = {
 
 const KeyboardRow = (props: Props) => {
     const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let copyList = [...props.outputList, event.target.value];
+        let copyList: string[] = [...props.outputList, event.target.value];
         if (copyList.indexOf("Enter") !== -1 && copyList.length < 6) {
             alert("文字数が足りません");
         }
@@ -38,7 +38,6 @@ const KeyboardRow = (props: Props) => {
             props.setAnswerList(insertList);
             props.setOutputList(new Array(0));
             props.setRowcnt(props.rowcnt+1);
-            console.log(props.answerList);
         }
         else if (copyList.length >= 6) {
             alert("入力できるのは5文字までです。");
@@ -46,7 +45,6 @@ const KeyboardRow = (props: Props) => {
         else{
             alert("error");
         }
-        console.log(copyList);
     };
 
     // キーボードのCSSスタイル
@@ -90,11 +88,11 @@ const KeyboardRow = (props: Props) => {
 
 
 export const Keyboard = (props: appProps) => {
-    const upKeyLayout = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-    const middleKeyLayout = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-    const downKeyLayout = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
+    const upKeyLayout: string[] = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
+    const middleKeyLayout: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
+    const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
 
-    const initList = new Array(0);
+    const initList: string[] = new Array(0);
     const [outputList, setOutputList] = useState<string[]>(initList);
 
     const [rowcnt,setRowcnt] = useState(0);
