@@ -39,6 +39,9 @@ const KeyboardRow = (props: Props) => {
             props.setRowcnt(props.rowcnt+1);
             console.log(props.answerList);
         }
+        else if (copyList.length > 6) {
+            alert("入力できるのは5文字までです。");
+        }
         else{
             alert("error");
         }
@@ -84,6 +87,7 @@ const KeyboardRow = (props: Props) => {
     );
 };
 
+
 export const Keyboard = (props: appProps) => {
     const upKeyLayout = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
     const middleKeyLayout = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -93,6 +97,7 @@ export const Keyboard = (props: appProps) => {
     const [outputList, setOutputList] = useState<string[]>(initList);
 
     const [rowcnt,setRowcnt] = useState(0);
+    
     return (
         <div className="Keyboard">
         <KeyboardRow
@@ -122,6 +127,18 @@ export const Keyboard = (props: appProps) => {
             outputList={outputList}
             setOutputList={setOutputList}
         />
+        <div id="easyModal" class="modal">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1>Great job 🎉</h1>
+                <span class="modalClose">×</span>
+            </div>
+            <div class="modal-body">
+                <p>You've just displayed this awesome Modal Window!</p>
+                <p>Let's enjoy learning JavaScript ☺️</p>
+            </div>
+            </div>
+        </div>
         </div>
     );
 };
