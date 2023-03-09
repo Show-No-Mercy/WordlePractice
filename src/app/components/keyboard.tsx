@@ -8,6 +8,8 @@ type appProps = {
 
 type Props = {
     rowcnt: number;
+    setColumncnt: React.Dispatch<React.SetStateAction<number>>;
+    columncnt: number;
     setRowcnt: React.Dispatch<React.SetStateAction<number>>;
     answerList: string[][];
     setAnswerList: React.Dispatch<React.SetStateAction<string[][]>>;
@@ -36,6 +38,7 @@ const KeyboardRow = (props: Props) => {
         let copyList: string[] = [...props.outputList, event.target.value];
 
         // Enter入力で文字数足りない
+
         if (copyList.indexOf("Enter") !== -1 && copyList.length < 6) {
             alert("文字数が足りません");
         }
@@ -71,6 +74,7 @@ const KeyboardRow = (props: Props) => {
         // else{
         //     alert("error");
         // }
+
     };
 
     // キーボードのCSSスタイル
@@ -118,16 +122,19 @@ export const Keyboard = (props: appProps) => {
     const middleKeyLayout: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
     const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
 
-    const initList: string[] = new Array(0);
+    const initList: string[] = new Array(5).fill("");
     const [outputList, setOutputList] = useState<string[]>(initList);
 
     const [rowcnt,setRowcnt] = useState(0);
+    const [columncnt,setColumncnt] = useState(0);
     
     return (
         <div className="Keyboard">
         <KeyboardRow
             rowcnt={rowcnt}
             setRowcnt={setRowcnt}
+            columncnt={columncnt}
+            setColumncnt={setColumncnt}
             answerList={props.answerList}
             setAnswerList={props.setAnswerList}
             keyLayout={upKeyLayout}
@@ -138,6 +145,8 @@ export const Keyboard = (props: appProps) => {
         <KeyboardRow
             rowcnt={rowcnt}
             setRowcnt={setRowcnt}
+            columncnt={columncnt}
+            setColumncnt={setColumncnt}
             answerList={props.answerList}
             setAnswerList={props.setAnswerList}
             keyLayout={middleKeyLayout}
@@ -148,6 +157,8 @@ export const Keyboard = (props: appProps) => {
         <KeyboardRow
             rowcnt={rowcnt}
             setRowcnt={setRowcnt}
+            columncnt={columncnt}
+            setColumncnt={setColumncnt}
             answerList={props.answerList}
             setAnswerList={props.setAnswerList}
             keyLayout={downKeyLayout}
