@@ -46,6 +46,7 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
             <Keyboard 
                 answerList={answerList} 
                 setAnswerList={setAnswerList}
+                setJudge={setJudge}
             />
         </div>
     );

@@ -18,7 +18,8 @@ export const Answer = (props: Props) => {
         borderSpacing: '6px 6px',
         display: 'flex',
         justifyContent: 'center',
-        marginBottom: '40px'
+        marginBottom: '40px',
+        marginTop: '100px',
     };
 
     /* td要素のCSSスタイル */
@@ -26,7 +27,7 @@ export const Answer = (props: Props) => {
     const whiteTdStyle: React.CSSProperties = {
         border: '2px solid rgb(217, 217, 217)',
         width: '60px',
-        height: '60px',
+        height: '70px',
 
         fontSize: '30px',
         fontWeight: 'bold',
@@ -87,7 +88,6 @@ export const Answer = (props: Props) => {
     // 単語一致判定
     const wordMatchJudgement = () => {
         // 一度ディープコピーする
-        // let tmpMatchList = Array.from(matchList);
         let tmpMatchStyleList = Array.from(matchStyleList);
 
         // 1文字ずつ判定
@@ -98,51 +98,49 @@ export const Answer = (props: Props) => {
                 
                 // 位置も一致(Green)
                 if (props.answerList[round-1][i] === props.answerWord[i]){
-                    // tmpMatchList[round-1][i] = "White";
                     tmpMatchStyleList[round-1][i] = greenTdStyle;
                 }
 
                 // 文字だけ一致(Yellow)
                 else {
-                    // tmpMatchList[round-1][i] = "Yellow";
                     tmpMatchStyleList[round-1][i] = yellowTdStyle;
                 }
             }
 
             // 文字も位置も一致していない(Black)
             else {
-                // tmpMatchList[round-1][i] = "Black";
                 tmpMatchStyleList[round-1][i] = blackTdStyle;
             }
         }
 
-        // return [tmpMatchList, tmpMatchStyleList];
         return tmpMatchStyleList;
     }
 
-    // スタイル
-    // const styleTransfer = (matchList: string[][]) => {
-    //     let tmpMatchStyleList = Array.from(matchStyleList);
-
-    //     const match = matchList[round-1];
-
-    //     for (let i=0; i<5; i++){
-    //         if (match[i] === "Green"){
-
-    //         }
-    //     }
-        
-    // }
-
     // クリア判定
-    // const clearJudgement = (matchList: string[][]) => {
+    const clearJudgement = () => {
 
-    //     // const isAllEqual = array => array.every(value => value === array[0]);
+        // ワードを抽出
+        let wordList = [];
+        for (let j = 0; j < 5; j++) {
+            wordList.push(props.answerList[round-1][j]);
+        }
+        const submitWord = wordList.join("");
+        console.log(wordList);
+        console.log(submitWord);
 
-    //     // isAllEqual(matchList[round-1]);
+        if (submitWord == props.answerWord){
+            alert("clear!!");
+            return "success";
+        }
 
-    //     return "playing";
-    // }
+        else if (round == 6) {
+            alert("fail...");
+            return "fail";
+        }
+
+        return "playing";
+    }
+
 
     // Appコンポーネントのjudgeが変化した時に呼ばれる
     useEffect(() => {
@@ -169,7 +167,7 @@ export const Answer = (props: Props) => {
                 const tmpMatchStyleList = wordMatchJudgement();
 
                 // クリア判定
-                // const status = clearJudgement(tmpMatchList);
+                const status = clearJudgement();
 
                 // スタイル更新
                 setMatchStyleList(tmpMatchStyleList);
@@ -216,10 +214,6 @@ export const Answer = (props: Props) => {
                     ))}
                 </tbody>
             </table>
-
-            <div style={divStyle}>
-                <button style={buttonStyle} onClick={()=>props.setJudge(true)}>judge</button>
-            </div>
 
         </div>            
     );
