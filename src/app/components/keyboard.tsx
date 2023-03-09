@@ -123,6 +123,7 @@ export const Keyboard = (props: appProps) => {
     const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
 
     const initList: string[] = new Array(5).fill("");
+    // const initList: string[] = new Array(0);
     const [outputList, setOutputList] = useState<string[]>(initList);
 
     const [rowcnt,setRowcnt] = useState(0);
