@@ -32,13 +32,14 @@ export const Answer = (props: Props) => {
         fontSize: '30px',
         fontWeight: 'bold',
         textAlign: 'center',
-        lineHeight: '60px',
+        lineHeight: '30px',
 
         // 文字色
         color: 'Black',  // 背景色Whiteの時のみ
 
         // 背景色
         backgroundColor: 'White',
+        
     };
 
     // Blackスタイル
@@ -177,27 +178,7 @@ export const Answer = (props: Props) => {
         }
 
     }, [props.judge]);
-    
-    /* テスト用 */
-    const divStyle: React.CSSProperties = {
-        display: 'flex',
-        justifyContent: 'center'
-    }
 
-    const buttonStyle: React.CSSProperties = {
-        backgroundColor: '3a3a3c',
-        borderRadius: '4px',
-        border: 'none',
-        width: '45px',
-        height: '60px',
-
-        fontSize: '13px',
-        fontWeight: 'bold',
-        color: 'White',
-
-        cursor: 'pointer',
-    }
-    /*  */
 
     return (
         // mapにより回答table作成

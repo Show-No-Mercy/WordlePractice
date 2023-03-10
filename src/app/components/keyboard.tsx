@@ -34,46 +34,51 @@ const KeyboardRow = (props: Props) => {
         props.setAnswerList(copyAnswer);
     }
 
-    const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let copyList: string[] = [...props.outputList, event.target.value];
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        // let copyList: string[] = [...props.outputList, event.currentTarget.value];
+        let copyList: string[] = [...props.outputList];
+        const letter = event.currentTarget.value;
 
-        // Enter入力で文字数足りない
+        // Enter入力
+        // if (copyList.indexOf("Enter") !== -1 && copyList.length < 6) {
+        if (letter === "Enter") {
+            if (props.columncnt < 5){
+                alert("文字数が足りません");
+            }
 
-        if (copyList.indexOf("Enter") !== -1 && copyList.length < 6) {
-            alert("文字数が足りません");
+            else {
+                console.log("Enter");
+                props.answerList[props.rowcnt] = props.outputList;
+                let insertList: string[][] = [...props.answerList];
+                props.setAnswerList(insertList);
+                props.setOutputList(new Array(0));
+                props.setJudge(true);
+                props.setRowcnt(props.rowcnt+1);
+                props.setColumncnt(0);
+            }
         }
         // Delete入力
-        else if(copyList.indexOf("Delete") !== -1){
-            if(copyList.length == 1){
-                copyList.splice(copyList.length-1,1);
+        // else if(copyList.indexOf("Delete") !== -1 ){
+        else if(letter === "Delete"){
+            if (props.columncnt > 0){
+                console.log("Delete");
+                copyList[props.columncnt-1] = ""
+                props.setOutputList(copyList);
+                updateAnswer(copyList);
+                props.setColumncnt(props.columncnt-1);
             }
-            else{
-                copyList.splice(copyList.length-2,2);
-            }
-            props.setOutputList(copyList);
-            updateAnswer(copyList);
         } 
         // アルファベット入力
-        else if (copyList.length < 6) {
-            props.setOutputList(copyList);
-            updateAnswer(copyList);
-
-        // Enter入力で文字数5
-        } else if (copyList.indexOf("Enter") !== -1 && copyList.length === 6) {
-            props.answerList[props.rowcnt] = props.outputList;
-            let insertList: string[][] = [...props.answerList];
-            props.setAnswerList(insertList);
-            props.setOutputList(new Array(0));
-            props.setJudge(true);
-            props.setRowcnt(props.rowcnt+1);
+        // else if (copyList.length < 6) {
+        else {
+                if (props.columncnt < 5) {
+                    console.log("Alphabet");
+                    copyList[props.columncnt] = event.currentTarget.value
+                    props.setOutputList(copyList);
+                    updateAnswer(copyList);
+                    props.setColumncnt(props.columncnt+1);
+                }
         }
-        // アルファベット入力だが文字数5以上
-        // else if (copyList.length >= 6) {
-        //     alert("入力できるのは5文字までです。");
-        // }
-        // else{
-        //     alert("error");
-        // }
 
     };
 
@@ -122,7 +127,7 @@ export const Keyboard = (props: appProps) => {
     const middleKeyLayout: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
     const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
 
-    const initList: string[] = new Array(5).fill("");
+    const initList: string[] = new Array(5).fill(" ");
     // const initList: string[] = new Array(0);
     const [outputList, setOutputList] = useState<string[]>(initList);
 

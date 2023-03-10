@@ -9,7 +9,7 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
     let initAnswerList: string[][] = new Array(6);
     for (let i=0; i<6; i++){
         // initAnswerList[i] = new Array(5).fill("A");
-        initAnswerList[i] = new Array(5).fill("");
+        initAnswerList[i] = new Array(5).fill(" ");
     }
 
     // 回答一覧
