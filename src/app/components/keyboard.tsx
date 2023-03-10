@@ -22,25 +22,22 @@ type Props = {
 const KeyboardRow = (props: Props) => {
 
     const updateAnswer = (output: string[]) => {
+        console.log("update!!");
         let copyAnswer = Array.from(props.answerList);
-
-        // outputを空文字埋め
-        let tmpOutput = Array.from(output);
-        for (let i=tmpOutput.length; i<=5; i++){
-            tmpOutput.push("");
-        }
-
-        copyAnswer[props.rowcnt] = tmpOutput;
+        copyAnswer[props.rowcnt] = output;
         props.setAnswerList(copyAnswer);
     }
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        // let copyList: string[] = [...props.outputList, event.currentTarget.value];
+
+        console.log("handleClick!1");
+
         let copyList: string[] = [...props.outputList];
         const letter = event.currentTarget.value;
 
+        console.log(props.answerList[0]);
+
         // Enter入力
-        // if (copyList.indexOf("Enter") !== -1 && copyList.length < 6) {
         if (letter === "Enter") {
             if (props.columncnt < 5){
                 alert("文字数が足りません");
@@ -48,17 +45,13 @@ const KeyboardRow = (props: Props) => {
 
             else {
                 console.log("Enter");
-                props.answerList[props.rowcnt] = props.outputList;
-                let insertList: string[][] = [...props.answerList];
-                props.setAnswerList(insertList);
-                props.setOutputList(new Array(0));
                 props.setJudge(true);
+                props.setOutputList(new Array(5).fill(" "));
                 props.setRowcnt(props.rowcnt+1);
                 props.setColumncnt(0);
             }
         }
         // Delete入力
-        // else if(copyList.indexOf("Delete") !== -1 ){
         else if(letter === "Delete"){
             if (props.columncnt > 0){
                 console.log("Delete");
@@ -69,7 +62,6 @@ const KeyboardRow = (props: Props) => {
             }
         } 
         // アルファベット入力
-        // else if (copyList.length < 6) {
         else {
                 if (props.columncnt < 5) {
                     console.log("Alphabet");
@@ -128,7 +120,6 @@ export const Keyboard = (props: appProps) => {
     const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
 
     const initList: string[] = new Array(5).fill(" ");
-    // const initList: string[] = new Array(0);
     const [outputList, setOutputList] = useState<string[]>(initList);
 
     const [rowcnt,setRowcnt] = useState(0);
