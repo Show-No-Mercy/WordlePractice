@@ -37,44 +37,48 @@ const KeyboardRow = (props: Props) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         let copyList: string[] = [...props.outputList, event.currentTarget.value];
 
-        // Enter入力で文字数足りない
+        // Enter入力
+        if (copyList.indexOf("Enter") !== -1) {
+            // 文字数不足
+            if (copyList.length < 6){
+                alert("文字数が足りません");
+            }
 
-        if (copyList.indexOf("Enter") !== -1 && copyList.length < 6) {
-            alert("文字数が足りません");
+            // 5文字入力した状態
+            else {
+                props.answerList[props.rowcnt] = props.outputList;
+                let insertList: string[][] = [...props.answerList];
+                props.setAnswerList(insertList);
+                props.setOutputList(new Array(0));
+                props.setJudge(true);
+                props.setRowcnt(props.rowcnt+1);
+            }
         }
+
         // Delete入力
         else if(copyList.indexOf("Delete") !== -1){
+
+            // 1文字も入力していない（消す予定）
             if(copyList.length == 1){
                 copyList.splice(copyList.length-1,1);
+                props.setOutputList(copyList);
+                updateAnswer(copyList);
             }
+
+            // 1文字以上入力
             else{
                 copyList.splice(copyList.length-2,2);
+                props.setOutputList(copyList);
+                updateAnswer(copyList);
             }
-            props.setOutputList(copyList);
-            updateAnswer(copyList);
+            
         } 
+
         // アルファベット入力
         else if (copyList.length < 6) {
             props.setOutputList(copyList);
             updateAnswer(copyList);
-
-        // Enter入力で文字数5
-        } else if (copyList.indexOf("Enter") !== -1 && copyList.length === 6) {
-            props.answerList[props.rowcnt] = props.outputList;
-            let insertList: string[][] = [...props.answerList];
-            props.setAnswerList(insertList);
-            props.setOutputList(new Array(0));
-            props.setJudge(true);
-            props.setRowcnt(props.rowcnt+1);
         }
-        // アルファベット入力だが文字数5以上
-        // else if (copyList.length >= 6) {
-        //     alert("入力できるのは5文字までです。");
-        // }
-        // else{
-        //     alert("error");
-        // }
-
     };
 
     // キーボードのCSSスタイル
