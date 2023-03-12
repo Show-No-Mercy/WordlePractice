@@ -34,8 +34,8 @@ const KeyboardRow = (props: Props) => {
         props.setAnswerList(copyAnswer);
     }
 
-    const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let copyList: string[] = [...props.outputList, event.target.value];
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        let copyList: string[] = [...props.outputList, event.currentTarget.value];
 
         // Enter入力で文字数足りない
 
