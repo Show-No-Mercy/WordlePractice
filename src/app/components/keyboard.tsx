@@ -35,10 +35,11 @@ const KeyboardRow = (props: Props) => {
     }
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        let copyList: string[] = [...props.outputList, event.currentTarget.value];
+        const letter = event.currentTarget.value;
+        let copyList: string[] = [...props.outputList, letter];
 
         // Enter入力
-        if (copyList.indexOf("Enter") !== -1) {
+        if (letter == "Enter") {
             // 文字数不足
             if (copyList.length < 6){
                 alert("文字数が足りません");
@@ -46,17 +47,24 @@ const KeyboardRow = (props: Props) => {
 
             // 5文字入力した状態
             else {
-                props.answerList[props.rowcnt] = props.outputList;
-                let insertList: string[][] = [...props.answerList];
+                // AnswerListへの送信
+                let insertList: string[][] = Array.from(props.answerList);
+                insertList[props.rowcnt] = props.outputList
                 props.setAnswerList(insertList);
-                props.setOutputList(new Array(0));
+
+                // Judge依頼
                 props.setJudge(true);
+
+                // outputの初期化
+                props.setOutputList(new Array(0));
+
+                // 次の行へ以降
                 props.setRowcnt(props.rowcnt+1);
             }
         }
 
         // Delete入力
-        else if(copyList.indexOf("Delete") !== -1){
+        else if(letter == "Delete"){
 
             // 1文字も入力していない（消す予定）
             if(copyList.length == 1){
