@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 type appProps = {
-    answerList: string[][];
     setAnswerList: React.Dispatch<React.SetStateAction<string[][]>>;
     setJudge: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -11,67 +10,56 @@ type Props = {
     setColumncnt: React.Dispatch<React.SetStateAction<number>>;
     columncnt: number;
     setRowcnt: React.Dispatch<React.SetStateAction<number>>;
-    answerList: string[][];
     setAnswerList: React.Dispatch<React.SetStateAction<string[][]>>;
     keyLayout: string[];
-    outputList: string[];
-    setOutputList: React.Dispatch<React.SetStateAction<string[]>>;
     setJudge: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const KeyboardRow = (props: Props) => {
+    const updateAnswer = (prevState: string[][], letter: string, row: number, column: number) => {
+        const tmpList = Array.from(prevState);
+        tmpList[row][column] = letter;
 
-    const updateAnswer = (output: string[]) => {
-        console.log("update!!");
-        let copyAnswer = Array.from(props.answerList);
-        copyAnswer[props.rowcnt] = output;
-        props.setAnswerList(copyAnswer);
+        return tmpList;
     }
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
-        console.log("handleClick!1");
-
-        let copyList: string[] = [...props.outputList];
         const letter = event.currentTarget.value;
 
-        console.log(props.answerList[0]);
-
         // Enter入力
-        if (letter === "Enter") {
+        if (letter == "Enter") {
+            // 文字数不足
             if (props.columncnt < 5){
                 alert("文字数が足りません");
             }
 
+            // 5文字入力した状態
             else {
-                console.log("Enter");
+                // フラグ送信（正解判定の依頼）
                 props.setJudge(true);
-                props.setOutputList(new Array(5).fill(" "));
-                props.setRowcnt(props.rowcnt+1);
+
+                // 列数リセット
                 props.setColumncnt(0);
+
+                // 次の行へ移行
+                props.setRowcnt((prev) => prev+1);
             }
-        }
-        // Delete入力
-        else if(letter === "Delete"){
-            if (props.columncnt > 0){
-                console.log("Delete");
-                copyList[props.columncnt-1] = ""
-                props.setOutputList(copyList);
-                updateAnswer(copyList);
-                props.setColumncnt(props.columncnt-1);
-            }
-        } 
-        // アルファベット入力
-        else {
-                if (props.columncnt < 5) {
-                    console.log("Alphabet");
-                    copyList[props.columncnt] = event.currentTarget.value
-                    props.setOutputList(copyList);
-                    updateAnswer(copyList);
-                    props.setColumncnt(props.columncnt+1);
-                }
         }
 
+        // Delete入力
+        else if(letter == "Delete"){
+            // 1文字以上入力
+            if(props.columncnt > 0){
+                props.setAnswerList((prevState) => updateAnswer(prevState, "", props.rowcnt, props.columncnt-1));
+                props.setColumncnt((prev) => prev-1);
+            }       
+        } 
+
+        // アルファベット入力
+        else if (props.columncnt < 5) {
+            props.setAnswerList((prevState) => updateAnswer(prevState, letter, props.rowcnt, props.columncnt));
+            props.setColumncnt((prev) => prev+1);
+        }
     };
 
     // キーボードのCSSスタイル
@@ -119,9 +107,6 @@ export const Keyboard = (props: appProps) => {
     const middleKeyLayout: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
     const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
 
-    const initList: string[] = new Array(5).fill(" ");
-    const [outputList, setOutputList] = useState<string[]>(initList);
-
     const [rowcnt,setRowcnt] = useState(0);
     const [columncnt,setColumncnt] = useState(0);
     
@@ -132,11 +117,8 @@ export const Keyboard = (props: appProps) => {
             setRowcnt={setRowcnt}
             columncnt={columncnt}
             setColumncnt={setColumncnt}
-            answerList={props.answerList}
             setAnswerList={props.setAnswerList}
             keyLayout={upKeyLayout}
-            outputList={outputList}
-            setOutputList={setOutputList}
             setJudge={props.setJudge}
         />
         <KeyboardRow
@@ -144,11 +126,8 @@ export const Keyboard = (props: appProps) => {
             setRowcnt={setRowcnt}
             columncnt={columncnt}
             setColumncnt={setColumncnt}
-            answerList={props.answerList}
             setAnswerList={props.setAnswerList}
             keyLayout={middleKeyLayout}
-            outputList={outputList}
-            setOutputList={setOutputList}
             setJudge={props.setJudge}
         />
         <KeyboardRow
@@ -156,11 +135,8 @@ export const Keyboard = (props: appProps) => {
             setRowcnt={setRowcnt}
             columncnt={columncnt}
             setColumncnt={setColumncnt}
-            answerList={props.answerList}
             setAnswerList={props.setAnswerList}
             keyLayout={downKeyLayout}
-            outputList={outputList}
-            setOutputList={setOutputList}
             setJudge={props.setJudge}
         />
         </div>
