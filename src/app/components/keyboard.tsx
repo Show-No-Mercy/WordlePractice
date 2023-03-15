@@ -16,7 +16,6 @@ type Props = {
 };
 
 const KeyboardRow = (props: Props) => {
-
     const updateAnswer = (prevState: string[][], letter: string, row: number, column: number) => {
         const tmpList = Array.from(prevState);
         tmpList[row][column] = letter;
@@ -53,8 +52,7 @@ const KeyboardRow = (props: Props) => {
             if(props.columncnt > 0){
                 props.setAnswerList((prevState) => updateAnswer(prevState, "", props.rowcnt, props.columncnt-1));
                 props.setColumncnt((prev) => prev-1);
-            }
-            
+            }       
         } 
 
         // アルファベット入力
@@ -108,7 +106,6 @@ export const Keyboard = (props: appProps) => {
     const upKeyLayout: string[] = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
     const middleKeyLayout: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
     const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
-
 
     const [rowcnt,setRowcnt] = useState(0);
     const [columncnt,setColumncnt] = useState(0);

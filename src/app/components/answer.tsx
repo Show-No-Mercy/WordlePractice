@@ -10,8 +10,6 @@ type Props = {
 }
 
 export const Answer = (props: Props) => {
-    console.log("- Answer start -");
-    console.log(props.judge);
 
     // 回答のCSSスタイル
     const answerStyle: React.CSSProperties = {
@@ -27,7 +25,7 @@ export const Answer = (props: Props) => {
     const whiteTdStyle: React.CSSProperties = {
         border: '2px solid rgb(217, 217, 217)',
         width: '60px',
-        height: '70px',
+        height: '60px',
 
         fontSize: '30px',
         fontWeight: 'bold',
@@ -39,6 +37,7 @@ export const Answer = (props: Props) => {
 
         // 背景色
         backgroundColor: 'White',
+        
     };
 
     // Blackスタイル
@@ -113,6 +112,7 @@ export const Answer = (props: Props) => {
             }
         }
 
+        console.log(tmpMatchStyleList[round-1]);
         return tmpMatchStyleList;
     }
 
@@ -125,7 +125,6 @@ export const Answer = (props: Props) => {
             wordList.push(props.answerList[round-1][j]);
         }
         const submitWord = wordList.join("");
-        console.log(wordList);
         console.log(submitWord);
 
         if (submitWord == props.answerWord){
@@ -162,8 +161,6 @@ export const Answer = (props: Props) => {
             // ゲーム継続中なら
             if (props.gameStatus == "playing"){
                 // 単語一致判定
-                // const [tmpMatchList, tmpMatchStyleList] = wordMatchJudgement();
-
                 const tmpMatchStyleList = wordMatchJudgement();
 
                 // クリア判定
@@ -173,31 +170,13 @@ export const Answer = (props: Props) => {
                 setMatchStyleList(tmpMatchStyleList);
                 // ラウンド更新
                 setRound(round+1);
+
+                console.log(tmpMatchStyleList[0]);
             }
         }
 
     }, [props.judge]);
-    
-    /* テスト用 */
-    const divStyle: React.CSSProperties = {
-        display: 'flex',
-        justifyContent: 'center'
-    }
 
-    const buttonStyle: React.CSSProperties = {
-        backgroundColor: '3a3a3c',
-        borderRadius: '4px',
-        border: 'none',
-        width: '45px',
-        height: '60px',
-
-        fontSize: '13px',
-        fontWeight: 'bold',
-        color: 'White',
-
-        cursor: 'pointer',
-    }
-    /*  */
 
     return (
         // mapにより回答table作成

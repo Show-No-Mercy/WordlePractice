@@ -19,9 +19,6 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
     // キーボードのEnter入力により更新
     const [ judge, setJudge ] = useState<boolean>(false);
 
-    console.log("- App Start -");
-    console.log(judge);
-
     // 現在の状態
     // playing: ゲーム中
     // success: 成功
