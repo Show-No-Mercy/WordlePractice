@@ -25,7 +25,7 @@ export const Answer = (props: Props) => {
     const whiteTdStyle: React.CSSProperties = {
         border: '2px solid rgb(217, 217, 217)',
         width: '60px',
-        height: '60px',
+        height: '70px',
 
         fontSize: '30px',
         fontWeight: 'bold',
