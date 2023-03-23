@@ -26,7 +26,7 @@ const App: React.FC<{ compiler: string, framework: string }> = (props) => {
     const [ gameStatus, setGameStatus ] = useState<string>("playing");
 
     // 正解単語
-    const [ answerWord, setAnswerWord ] = useState<string>("WORLD");
+    const [ answerWord, setAnswerWord ] = useState<string>("うれしいな");
 
     return (
         <div className="App">

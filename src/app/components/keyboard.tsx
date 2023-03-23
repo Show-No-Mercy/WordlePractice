@@ -57,20 +57,34 @@ const KeyboardRow = (props: Props) => {
 
         // アルファベット入力
         else if (props.columncnt < 5) {
-            props.setAnswerList((prevState) => updateAnswer(prevState, letter, props.rowcnt, props.columncnt));
-            props.setColumncnt((prev) => prev+1);
+            if(letter != ""){
+                props.setAnswerList((prevState) => updateAnswer(prevState, letter, props.rowcnt, props.columncnt));
+                props.setColumncnt((prev) => prev+1);
+            }
         }
     };
 
     // キーボードのCSSスタイル
     const keyboardStyle: React.CSSProperties = {
-        borderSpacing: "6px 6px",
+        borderSpacing: "3px 3px",
         display: "flex",
         justifyContent: "center"
     };
 
     // ボタンのCSSスタイル
     const buttonStyle: React.CSSProperties = {
+        backgroundColor: "rgb(217, 217, 217)",
+        borderRadius: "4px",
+        border: "none",
+        width: "30px",
+        height: "30px",
+
+        fontSize: "13px",
+        fontWeight: "bold",
+        cursor: "pointer"
+    };
+
+    const buttonStyleKeys: React.CSSProperties = {
         backgroundColor: "rgb(217, 217, 217)",
         borderRadius: "4px",
         border: "none",
@@ -103,9 +117,11 @@ const KeyboardRow = (props: Props) => {
 
 
 export const Keyboard = (props: appProps) => {
-    const upKeyLayout: string[] = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-    const middleKeyLayout: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-    const downKeyLayout: string[] = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Delete"];
+    const keyboardListRow1: string[] = ["わ", "ら", "や", "ま", "は", "な", "た", "さ", "か", "あ","Delete"];
+    const keyboardListRow2: string[] = ["を", "り", "", "み", "ひ", "に", "ち", "し", "き", "い",""];
+    const keyboardListRow3: string[] = ["ん", "る", "ゆ", "む", "ふ", "ぬ", "つ", "す", "く", "う",""];
+    const keyboardListRow4: string[] = ["", "れ", "", "め", "へ", "ね", "て", "せ", "け", "え",""];
+    const keyboardListRow5: string[] = ["ー", "ろ", "よ", "も", "ほ", "の", "と", "そ", "こ", "お","Enter"];
 
     const [rowcnt,setRowcnt] = useState(0);
     const [columncnt,setColumncnt] = useState(0);
@@ -118,7 +134,7 @@ export const Keyboard = (props: appProps) => {
             columncnt={columncnt}
             setColumncnt={setColumncnt}
             setAnswerList={props.setAnswerList}
-            keyLayout={upKeyLayout}
+            keyLayout={keyboardListRow1}
             setJudge={props.setJudge}
         />
         <KeyboardRow
@@ -127,7 +143,7 @@ export const Keyboard = (props: appProps) => {
             columncnt={columncnt}
             setColumncnt={setColumncnt}
             setAnswerList={props.setAnswerList}
-            keyLayout={middleKeyLayout}
+            keyLayout={keyboardListRow2}
             setJudge={props.setJudge}
         />
         <KeyboardRow
@@ -136,7 +152,25 @@ export const Keyboard = (props: appProps) => {
             columncnt={columncnt}
             setColumncnt={setColumncnt}
             setAnswerList={props.setAnswerList}
-            keyLayout={downKeyLayout}
+            keyLayout={keyboardListRow3}
+            setJudge={props.setJudge}
+        />
+        <KeyboardRow
+            rowcnt={rowcnt}
+            setRowcnt={setRowcnt}
+            columncnt={columncnt}
+            setColumncnt={setColumncnt}
+            setAnswerList={props.setAnswerList}
+            keyLayout={keyboardListRow4}
+            setJudge={props.setJudge}
+        />
+        <KeyboardRow
+            rowcnt={rowcnt}
+            setRowcnt={setRowcnt}
+            columncnt={columncnt}
+            setColumncnt={setColumncnt}
+            setAnswerList={props.setAnswerList}
+            keyLayout={keyboardListRow5}
             setJudge={props.setJudge}
         />
         </div>
