@@ -190,6 +190,7 @@ export const Answer = (props: Props) => {
                                 <td key={j} style={matchStyleList[i][j]}>{letter}</td>
                             ))}
                         </tr>
+                        // ここにwordTovecコンポーネントを入れたい！
                     ))}
                 </tbody>
             </table>
